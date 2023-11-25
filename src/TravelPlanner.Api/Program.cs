@@ -1,4 +1,7 @@
+using Microsoft.AspNetCore.Identity;
 using TravelPlanner.Api;
+using TravelPlanner.Api.Entities;
+using TravelPlanner.Api.Infrastructure.Persistence;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -8,7 +11,23 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddApplication()
     .AddInfrastructure(builder.Configuration);
 
+builder.Services.AddAuthentication(IdentityConstants.ApplicationScheme)
+    .AddIdentityCookies();
+builder.Services.AddAuthorizationBuilder();
+
+builder.Services.AddIdentityCore<User>()
+    .AddEntityFrameworkStores<TripContext>()
+    .AddApiEndpoints();
+
+builder.Services.Configure<IdentityOptions>(options =>
+{
+    options.SignIn.RequireConfirmedEmail = true;
+    options.User.RequireUniqueEmail = true;
+});
+
 var app = builder.Build();
+
+app.MapIdentityApi<User>();
 
 if (app.Environment.IsDevelopment())
 {
