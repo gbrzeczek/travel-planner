@@ -30,6 +30,8 @@ builder.Services.Configure<IdentityOptions>(options =>
 
 var app = builder.Build();
 
+app.UseExceptionHandler(opt => { });
+
 app.MapIdentityApi<User>();
 app.MapCarter();
 

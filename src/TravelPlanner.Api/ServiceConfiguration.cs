@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Identity.UI.Services;
 using TravelPlanner.Api.Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
+using TravelPlanner.Api.Common;
 using TravelPlanner.Api.Common.Behaviors;
 using TravelPlanner.Api.Common.Interfaces;
 using TravelPlanner.Api.Infrastructure.Email;
@@ -25,6 +26,8 @@ public static class ServiceConfiguration
         services.AddValidatorsFromAssembly(assembly);
 
         services.AddTransient<ICurrentUser, CurrentUser>();
+
+        services.AddExceptionHandler<ExceptionHandler>();
         
         return services;
     }
