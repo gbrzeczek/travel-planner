@@ -1,9 +1,8 @@
 using Carter;
-using Microsoft.AspNetCore.Identity;
 using Serilog;
 using TravelPlanner.Api;
+using TravelPlanner.Api.Auth;
 using TravelPlanner.Api.Entities;
-using TravelPlanner.Api.Infrastructure.Persistence;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -18,28 +17,7 @@ builder.Services.AddApplication()
 
 builder.Services.AddCarter();
 
-builder.Services.AddAuthentication(IdentityConstants.ApplicationScheme)
-    .AddIdentityCookies();
-builder.Services.AddAuthorizationBuilder();
-
-builder.Services.AddIdentityCore<User>()
-    .AddEntityFrameworkStores<TripContext>()
-    .AddApiEndpoints();
-
-builder.Services.ConfigureApplicationCookie(options =>
-{
-    options.Events.OnRedirectToLogin = context =>
-    {
-        context.Response.StatusCode = StatusCodes.Status401Unauthorized;
-        return Task.CompletedTask;
-    };
-});
-
-builder.Services.Configure<IdentityOptions>(options =>
-{
-    options.SignIn.RequireConfirmedEmail = true;
-    options.User.RequireUniqueEmail = true;
-});
+builder.Services.AddAuthServices();
 
 var app = builder.Build();
 
