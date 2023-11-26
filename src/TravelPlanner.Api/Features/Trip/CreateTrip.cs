@@ -1,7 +1,9 @@
 ﻿using Carter;
 using FluentValidation;
+using Mapster;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using TravelPlanner.Api.Contracts.Trip;
 using TravelPlanner.Api.Infrastructure.Persistence;
 
 namespace TravelPlanner.Api.Features.Trip;
@@ -10,7 +12,7 @@ public static class CreateTrip
 {
     public class Command : IRequest<int>
     {
-        public string Name { get; set; } = string.Empty;
+        public required string Name { get; set; }
         public DateOnly StartDate { get; set; }
         public DateOnly EndDate { get; set; }
     }
@@ -51,12 +53,13 @@ public class CreateTripEndpoint : ICarterModule
     public void AddRoutes(IEndpointRouteBuilder app)
     {
         app.MapPost("api/trips", async (
-                CreateTrip.Command command,
+                CreateTripRequest request,
                 ISender sender,
                 CancellationToken cancellationToken) =>
-            {
-                var result = await sender.Send(command, cancellationToken);
-                return new CreatedResult($"/api/trips/{result}", result);
-            }).RequireAuthorization();
+        {
+            var command = request.Adapt<CreateTrip.Command>();
+            var result = await sender.Send(command, cancellationToken);
+            return new CreatedResult($"/api/trips/{result}", result);
+        }).RequireAuthorization();
     }
 }
