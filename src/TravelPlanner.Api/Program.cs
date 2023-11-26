@@ -26,6 +26,15 @@ builder.Services.AddIdentityCore<User>()
     .AddEntityFrameworkStores<TripContext>()
     .AddApiEndpoints();
 
+builder.Services.ConfigureApplicationCookie(options =>
+{
+    options.Events.OnRedirectToLogin = context =>
+    {
+        context.Response.StatusCode = StatusCodes.Status401Unauthorized;
+        return Task.CompletedTask;
+    };
+});
+
 builder.Services.Configure<IdentityOptions>(options =>
 {
     options.SignIn.RequireConfirmedEmail = true;
