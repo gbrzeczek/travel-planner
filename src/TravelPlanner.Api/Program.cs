@@ -1,10 +1,14 @@
 using Carter;
 using Microsoft.AspNetCore.Identity;
+using Serilog;
 using TravelPlanner.Api;
 using TravelPlanner.Api.Entities;
 using TravelPlanner.Api.Infrastructure.Persistence;
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Host.UseSerilog((context, configuration) =>
+    configuration.ReadFrom.Configuration(context.Configuration));
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
@@ -31,6 +35,8 @@ builder.Services.Configure<IdentityOptions>(options =>
 var app = builder.Build();
 
 app.UseExceptionHandler(opt => { });
+
+app.UseSerilogRequestLogging();
 
 app.MapIdentityApi<User>();
 app.MapCarter();
