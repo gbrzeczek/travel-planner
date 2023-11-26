@@ -1,31 +1,56 @@
-<mat-card>
-  <mat-card-title>Login</mat-card-title>
-  <mat-card-content>
-    <form [formGroup]="loginForm" (ngSubmit)="submit()">
-      <p>
-        <mat-label>Email</mat-label>
-        <mat-form-field>
-          <input type="text" matInput formControlName="email" />
-        </mat-form-field>
-      </p>
+<div class="container">
+  <mat-card>
+    <mat-card-title>Login</mat-card-title>
+    <mat-card-content>
+      <form [formGroup]="loginForm" (ngSubmit)="submit()">
+        <p>
+          <mat-label>Email</mat-label>
+          <mat-form-field>
+            <input type="text" matInput formControlName="email" />
+          </mat-form-field>
+        </p>
 
-      <p>
-        <mat-label>Password</mat-label>
-        <mat-form-field>
-          <input type="password" matInput formControlName="password" />
-        </mat-form-field>
-      </p>
+        <p>
+          <mat-label>Password</mat-label>
+          <mat-form-field>
+            <input type="password" matInput formControlName="password" />
+          </mat-form-field>
+        </p>
 
-      <div class="button">
-        <button
-          type="submit"
-          color="primary"
-          [disabled]="loginForm.invalid"
-          mat-raised-button
-        >
-          Login
-        </button>
+        <div class="login-button-wrapper">
+          <button
+            class="button"
+            type="submit"
+            color="primary"
+            [disabled]="loginForm.invalid"
+            mat-raised-button
+          >
+            Log In
+          </button>
+        </div>
+      </form>
+
+      <mat-divider></mat-divider>
+
+      <div class="signup-buttons-wrapper">
+        <div class="button-wrapper">
+          <button class="button" type="submit" color="primary" mat-button>
+            Sign Up with Email
+          </button>
+        </div>
+        <div class="button-wrapper">
+          <button
+            class="button"
+            type="submit"
+            color="primary"
+            [disabled]="true"
+            mat-button
+          >
+            <i class="fa fa-google" aria-hidden="true"></i>
+            Sign Up with Google
+          </button>
+        </div>
       </div>
-    </form>
-  </mat-card-content>
-</mat-card>
+    </mat-card-content>
+  </mat-card>
+</div>

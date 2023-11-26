@@ -10,6 +10,7 @@ import {
 } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
+import { MatDividerModule } from '@angular/material/divider';
 
 @Component({
   selector: 'app-login-page',
@@ -21,6 +22,7 @@ import { MatButtonModule } from '@angular/material/button';
     ReactiveFormsModule,
     MatInputModule,
     MatButtonModule,
+    MatDividerModule,
   ],
   templateUrl: './login-page.component.html',
   styleUrl: './login-page.component.scss',
