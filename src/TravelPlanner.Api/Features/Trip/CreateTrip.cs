@@ -1,4 +1,5 @@
 ﻿using Carter;
+using FluentValidation;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using TravelPlanner.Api.Infrastructure.Persistence;
@@ -12,6 +13,18 @@ public static class CreateTrip
         public string Name { get; set; } = string.Empty;
         public DateOnly StartDate { get; set; }
         public DateOnly EndDate { get; set; }
+    }
+    
+    public class Validator : AbstractValidator<Command>
+    {
+        public Validator()
+        {
+            RuleFor(x => x.Name).NotEmpty();
+            RuleFor(x => x.StartDate).NotEmpty();
+            RuleFor(x => x.EndDate).NotEmpty();
+            
+            RuleFor(x => x.EndDate).GreaterThanOrEqualTo(x => x.StartDate);
+        }
     }
     
     public class Handler(TripContext context) : IRequestHandler<Command, int>

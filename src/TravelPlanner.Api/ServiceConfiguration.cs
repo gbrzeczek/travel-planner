@@ -1,8 +1,11 @@
 ﻿using System.Reflection;
+using FluentValidation;
+using MediatR;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using TravelPlanner.Api.Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
+using TravelPlanner.Api.Common.Behaviors;
 using TravelPlanner.Api.Common.Interfaces;
 using TravelPlanner.Api.Infrastructure.Email;
 using TravelPlanner.Api.Infrastructure.Persistence.Interceptors;
@@ -17,6 +20,9 @@ public static class ServiceConfiguration
         var assembly = Assembly.GetExecutingAssembly();
         
         services.AddMediatR(c => c.RegisterServicesFromAssembly(assembly));
+        services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
+        
+        services.AddValidatorsFromAssembly(assembly);
 
         services.AddTransient<ICurrentUser, CurrentUser>();
         
