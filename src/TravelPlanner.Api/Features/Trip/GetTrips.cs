@@ -6,7 +6,7 @@ using MediatR;
 using Microsoft.EntityFrameworkCore;
 using TravelPlanner.Api.Common.Interfaces;
 using TravelPlanner.Api.Common.Models;
-using TravelPlanner.Api.Common.Models.Enums;
+using TravelPlanner.Api.Common.Extensions;
 using TravelPlanner.Api.Contracts;
 using TravelPlanner.Api.Contracts.Trip;
 using TravelPlanner.Api.Infrastructure.Persistence;
@@ -43,28 +43,11 @@ public static class GetTrips
                 _ => x => x.Id
             };
             
-            if (request.SortDirection == SortDirection.Ascending)
-            {
-                query = query.OrderBy(keySelector);
-            }
-            else
-            {
-                query = query.OrderByDescending(keySelector);
-            }
-            
-            query = query.Skip((request.PageIndex - 1) * request.PageSize)
-                .Take(request.PageSize);
+            query = query.OrderBy(keySelector, request.SortDirection).Paginate(request);
 
             var items = await query.ProjectToType<TripResponse>().ToListAsync(cancellationToken);
-            
-            return new PagedResponse<TripResponse>()
-            {
-                Data = items,
-                PageIndex = request.PageIndex,
-                PageSize = request.PageSize,
-                TotalCount = totalItems,
-                TotalPages = (int)Math.Ceiling(totalItems / (double)request.PageSize)
-            };
+
+            return request.MapToPagedResponse(items, totalItems);
         }
     }
 }
