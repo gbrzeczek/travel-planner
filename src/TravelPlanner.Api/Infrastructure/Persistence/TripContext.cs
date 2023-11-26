@@ -13,4 +13,11 @@ public class TripContext : IdentityDbContext<User, IdentityRole<int>, int>
     public TripContext(DbContextOptions<TripContext> options) : base(options)
     {
     }
+    
+    protected override void OnModelCreating(ModelBuilder builder)
+    {
+        builder.ApplyConfigurationsFromAssembly(typeof(TripContext).Assembly);
+        
+        base.OnModelCreating(builder);
+    }
 }
