@@ -1,6 +1,8 @@
-﻿namespace TravelPlanner.Api.Entities;
+﻿using TravelPlanner.Api.Common;
 
-public class TripPlace
+namespace TravelPlanner.Api.Entities;
+
+public class TripPlace : AuditableEntity
 {
     public required int Id { get; set; }
     public required long OpenStreetMapId { get; set; }
