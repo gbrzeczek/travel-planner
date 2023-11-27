@@ -1,5 +1,6 @@
 ﻿using FluentValidation;
 using Microsoft.AspNetCore.Diagnostics;
+using TravelPlanner.Api.Common.Exceptions;
 
 namespace TravelPlanner.Api.Common;
 
@@ -45,7 +46,7 @@ public class ExceptionHandler(ILogger<ExceptionHandler> logger) : IExceptionHand
             _ => "Server Error"
         };
     
-    private record ValidationError(string PropertyName, string ErrorMessage);
+    private record ValidationError(string Key, string ErrorMessage);
 
     private static IEnumerable<ValidationError> GetErrors(Exception exception)
     {
@@ -53,6 +54,7 @@ public class ExceptionHandler(ILogger<ExceptionHandler> logger) : IExceptionHand
         {
             ValidationException validationException => validationException.Errors
                 .Select(x => new ValidationError(x.PropertyName, x.ErrorMessage)),
+            ApplicationValidationException  => new[] { new ValidationError("Error", exception.Message) },
             _ => Enumerable.Empty<ValidationError>()
         };
     }

@@ -1,13 +1,14 @@
 ﻿using System.Reflection;
 using FluentValidation;
 using MediatR;
-using Microsoft.AspNetCore.Identity.UI.Services;
+using Microsoft.AspNetCore.Identity;
 using TravelPlanner.Api.Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 using TravelPlanner.Api.Common;
 using TravelPlanner.Api.Common.Behaviors;
 using TravelPlanner.Api.Common.Interfaces;
+using TravelPlanner.Api.Entities;
 using TravelPlanner.Api.Infrastructure.Email;
 using TravelPlanner.Api.Infrastructure.Persistence.Interceptors;
 using TravelPlanner.Api.Infrastructure.Services;
@@ -42,7 +43,7 @@ public static class ServiceConfiguration
         });
 
         services.Configure<EmailSenderOptions>(configuration.GetSection(nameof(EmailSenderOptions)))
-            .AddTransient<IEmailSender, EmailSender>();
+            .AddTransient<IEmailSender<User>, EmailSender>();
         
         return services;
     }
