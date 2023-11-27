@@ -34,7 +34,14 @@
 
       <div class="signup-buttons-wrapper">
         <div class="button-wrapper">
-          <button class="button" type="submit" color="primary" mat-button>
+          <button
+            class="button"
+            type="submit"
+            color="basic"
+            [routerLink]="['/register']"
+            routerLinkActive="router-link-active"
+            mat-raised-button
+          >
             Sign Up with Email
           </button>
         </div>
@@ -42,12 +49,24 @@
           <button
             class="button"
             type="submit"
-            color="primary"
-            [disabled]="true"
-            mat-button
+            color="basic"
+            disabled="true"
+            mat-raised-button
           >
-            <i class="fa fa-google" aria-hidden="true"></i>
+            <i class="bi bi-google"></i>
             Sign Up with Google
+          </button>
+        </div>
+        <div class="button-wrapper">
+          <button
+            class="button"
+            type="submit"
+            color="basic"
+            disabled="true"
+            mat-raised-button
+          >
+            <i class="bi bi-microsoft"></i>
+            Sign Up with Microsoft
           </button>
         </div>
       </div>
