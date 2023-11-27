@@ -3,7 +3,6 @@ using FluentValidation;
 using Mapster;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using TravelPlanner.Api.Contracts.Trip;
 using TravelPlanner.Api.Infrastructure.Persistence;
 
 namespace TravelPlanner.Api.Features.Trip;
@@ -62,4 +61,11 @@ public class CreateTripEndpoint : ICarterModule
             return new CreatedResult($"/api/trips/{result}", result);
         }).RequireAuthorization();
     }
+}
+
+public class CreateTripRequest
+{
+    public required string Name { get; set; }
+    public DateOnly StartDate { get; set; }
+    public DateOnly EndDate { get; set; }
 }

@@ -1,4 +1,4 @@
-﻿namespace TravelPlanner.Api.Contracts;
+﻿namespace TravelPlanner.Api.Common.Contracts;
 
 public class PagedResponse<T>
 {
