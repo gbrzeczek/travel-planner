@@ -36,6 +36,9 @@ public class ExceptionHandler(ILogger<ExceptionHandler> logger) : IExceptionHand
         exception switch
         {
             ValidationException => StatusCodes.Status422UnprocessableEntity,
+            ApplicationValidationException => StatusCodes.Status422UnprocessableEntity,
+            NotFoundException => StatusCodes.Status404NotFound,
+            UnauthorizedException => StatusCodes.Status401Unauthorized,
             _ => StatusCodes.Status500InternalServerError
         };
 
@@ -43,6 +46,9 @@ public class ExceptionHandler(ILogger<ExceptionHandler> logger) : IExceptionHand
         exception switch
         {
             ValidationException => "Validation Error",
+            ApplicationValidationException => "Validation Error",
+            NotFoundException => "Not Found",
+            UnauthorizedException => "Unauthorized",
             _ => "Server Error"
         };
     
@@ -54,7 +60,9 @@ public class ExceptionHandler(ILogger<ExceptionHandler> logger) : IExceptionHand
         {
             ValidationException validationException => validationException.Errors
                 .Select(x => new ValidationError(x.PropertyName, x.ErrorMessage)),
-            ApplicationValidationException  => new[] { new ValidationError("Error", exception.Message) },
+            ApplicationValidationException => new[] { new ValidationError("Error", exception.Message) },
+            NotFoundException => new[] { new ValidationError("Error", exception.Message) },
+            UnauthorizedException => Enumerable.Empty<ValidationError>(),
             _ => Enumerable.Empty<ValidationError>()
         };
     }
