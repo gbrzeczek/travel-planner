@@ -23,6 +23,7 @@ public static class AuthExtensions
                 context.Response.StatusCode = StatusCodes.Status401Unauthorized;
                 return Task.CompletedTask;
             };
+            options.Cookie.Name = "TravelPlanner.Auth";
         });
 
         services.Configure<IdentityOptions>(options =>
