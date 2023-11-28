@@ -5,8 +5,6 @@ using FluentValidation;
 using Mapster;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.WebUtilities;
-using TravelPlanner.Api.Auth.Utils;
 using TravelPlanner.Api.Common.Exceptions;
 using TravelPlanner.Api.Entities;
 
@@ -38,8 +36,7 @@ public static class Register
     
     public class Handler(
             UserManager<User> userManager, 
-            IEmailSender<User> emailSender,
-            IHttpContextAccessor contextAccessor)
+            ISender sender)
         : IRequestHandler<Command>
     {
         public async Task Handle(Command request, CancellationToken cancellationToken)
@@ -69,13 +66,11 @@ public static class Register
                 throw new ValidationException(result.Errors.ToString());
             }
 
-            var code = await userManager.GenerateEmailConfirmationTokenAsync(user);
-            code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
-
-            var userId = await userManager.GetUserIdAsync(user);
-
-            var confirmEmailUrl = ConfirmationLinkBuilder.Build(contextAccessor.HttpContext!, userId, code);
-            await emailSender.SendConfirmationLinkAsync(user, user.Email, HtmlEncoder.Default.Encode(confirmEmailUrl));
+            var sendCodeCommand = new SendConfirmationEmail.Command
+            {
+                Email = user.Email
+            };
+            await sender.Send(sendCodeCommand, cancellationToken);
         }
     }
 }

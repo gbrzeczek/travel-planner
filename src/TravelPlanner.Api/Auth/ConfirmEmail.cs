@@ -70,10 +70,11 @@ public class ConfirmEmailEndpoint : ICarterModule
     {
         app.MapGet("account/confirm-email", async (
             [AsParameters] ConfirmEmailRequest request, 
-            [FromServices] ISender sender) =>
+            [FromServices] ISender sender,
+            CancellationToken cancellationToken) =>
         {
             var command = request.Adapt<ConfirmEmail.Command>();
-            await sender.Send(command);
+            await sender.Send(command, cancellationToken);
             return TypedResults.Text("Thank you for confirming your email.");
         });
     }

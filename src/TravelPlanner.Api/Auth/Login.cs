@@ -42,10 +42,13 @@ public class LoginEndpoint : ICarterModule
 {
     public void AddRoutes(IEndpointRouteBuilder app)
     {
-        app.MapPost("account/login", async ([FromBody] LoginRequest request, [FromServices] ISender sender) =>
+        app.MapPost("account/login", async (
+            [FromBody] LoginRequest request, 
+            [FromServices] ISender sender,
+            CancellationToken cancellationToken) =>
         {
             var command = request.Adapt<Login.Command>();
-            await sender.Send(command);
+            await sender.Send(command, cancellationToken);
             return Results.Ok();
         });
     }
