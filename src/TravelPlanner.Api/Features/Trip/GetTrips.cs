@@ -4,11 +4,10 @@ using FluentValidation;
 using Mapster;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using TravelPlanner.Api.Common.Contracts;
 using TravelPlanner.Api.Common.Interfaces;
 using TravelPlanner.Api.Common.Models;
 using TravelPlanner.Api.Common.Extensions;
-using TravelPlanner.Api.Contracts;
-using TravelPlanner.Api.Contracts.Trip;
 using TravelPlanner.Api.Infrastructure.Persistence;
 
 namespace TravelPlanner.Api.Features.Trip;
@@ -63,4 +62,17 @@ public class GetTripsEndpoint : ICarterModule
             return Results.Ok(result);
         }).RequireAuthorization();
     }
+}
+
+public class GetTripsRequest : PaginationRequest
+{
+    
+}
+
+public class TripResponse
+{
+    public required int Id { get; init; }
+    public required string Name { get; init; }
+    public required DateOnly StartDate { get; init; }
+    public required DateOnly EndDate { get; init; }
 }

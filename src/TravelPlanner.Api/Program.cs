@@ -12,6 +12,8 @@ builder.Host.UseSerilog((context, configuration) =>
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+builder.Services.AddHttpContextAccessor();
+
 builder.Services.AddApplication()
     .AddInfrastructure(builder.Configuration);
 
@@ -25,7 +27,6 @@ app.UseExceptionHandler(opt => { });
 
 app.UseSerilogRequestLogging();
 
-app.MapIdentityApi<User>();
 app.MapCarter();
 
 if (app.Environment.IsDevelopment())

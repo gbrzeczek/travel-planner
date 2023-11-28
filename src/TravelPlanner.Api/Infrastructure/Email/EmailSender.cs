@@ -1,18 +1,35 @@
 ﻿using MailKit.Net.Smtp;
 using MailKit.Security;
-using Microsoft.AspNetCore.Identity.UI.Services;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Options;
 using MimeKit;
+using TravelPlanner.Api.Entities;
 
 namespace TravelPlanner.Api.Infrastructure.Email;
 
-public class EmailSender(IOptions<EmailSenderOptions> options) : IEmailSender
+public class EmailSender(IOptions<EmailSenderOptions> options) : IEmailSender<User>
 {
     private readonly EmailSenderOptions _options = options.Value;
-
-    public async Task SendEmailAsync(string email, string subject, string htmlMessage)
+    
+    public Task SendConfirmationLinkAsync(User user, string email, string confirmationLink)
     {
-        await SendAsync(email, subject, htmlMessage);
+        const string subject = "Confirm your email";
+        var htmlMessage = $"<a href=\"{confirmationLink}\">Confirm your email</a>";
+        return SendAsync(email, subject, htmlMessage);
+    }
+
+    public Task SendPasswordResetLinkAsync(User user, string email, string resetLink)
+    {
+        const string subject = "Reset your password";
+        var htmlMessage = $"<a href=\"{resetLink}\">Reset your password</a>";
+        return SendAsync(email, subject, htmlMessage);
+    }
+
+    public Task SendPasswordResetCodeAsync(User user, string email, string resetCode)
+    {
+        const string subject = "Reset your password";
+        var htmlMessage = $"<p>Your reset code is: {resetCode}</p>";
+        return SendAsync(email, subject, htmlMessage);
     }
     
     private async Task SendAsync(string email, string subject, string htmlMessage)

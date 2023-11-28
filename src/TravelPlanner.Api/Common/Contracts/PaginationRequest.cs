@@ -1,6 +1,6 @@
 ﻿using Enums = TravelPlanner.Api.Common.Models.Enums;
 
-namespace TravelPlanner.Api.Contracts;
+namespace TravelPlanner.Api.Common.Contracts;
 
 public class PaginationRequest
 {

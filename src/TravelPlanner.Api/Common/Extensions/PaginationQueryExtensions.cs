@@ -1,5 +1,5 @@
-﻿using TravelPlanner.Api.Common.Models;
-using TravelPlanner.Api.Contracts;
+﻿using TravelPlanner.Api.Common.Contracts;
+using TravelPlanner.Api.Common.Models;
 
 namespace TravelPlanner.Api.Common.Extensions;
 
