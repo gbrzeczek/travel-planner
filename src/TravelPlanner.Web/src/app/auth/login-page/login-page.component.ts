@@ -14,6 +14,7 @@ import { MatDividerModule } from '@angular/material/divider';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router, RouterLink } from '@angular/router';
 import { AuthService } from '../services/auth.service';
+import { DividerWithTextComponent } from '../../common/divider-with-text/divider-with-text.component';
 
 @Component({
   selector: 'app-login-page',
@@ -27,6 +28,7 @@ import { AuthService } from '../services/auth.service';
     MatButtonModule,
     MatDividerModule,
     RouterLink,
+    DividerWithTextComponent,
   ],
   templateUrl: './login-page.component.html',
   styleUrl: './login-page.component.scss',
