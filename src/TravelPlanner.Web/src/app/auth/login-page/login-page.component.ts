@@ -11,7 +11,9 @@ import {
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDividerModule } from '@angular/material/divider';
-import { RouterLink } from '@angular/router';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { Router, RouterLink } from '@angular/router';
+import { AuthService } from '../services/auth.service';
 
 @Component({
   selector: 'app-login-page',
@@ -30,10 +32,39 @@ import { RouterLink } from '@angular/router';
   styleUrl: './login-page.component.scss',
 })
 export class LoginPageComponent {
+  constructor(
+    private readonly _authService: AuthService,
+    private readonly snackbar: MatSnackBar,
+    private readonly router: Router
+  ) {}
+
   public loginForm = new FormGroup({
     email: new FormControl('', [Validators.required, Validators.email]),
     password: new FormControl('', [Validators.required]),
   });
 
-  public submit(): void {}
+  public submit(): void {
+    if (this.loginForm.valid) {
+      const email = this.loginForm.get('email')?.value;
+      const password = this.loginForm.get('password')?.value;
+
+      if (!email || !password) {
+        this.snackbar.open('Please enter email and password', 'OK', {
+          duration: 5000,
+        });
+        return;
+      }
+
+      this._authService.login(email!, password!).subscribe({
+        next: () => {
+          this.router.navigate(['/']);
+        },
+        error: () => {
+          this.snackbar.open('Failed to log in. Check your credentials', 'OK', {
+            duration: 5000,
+          });
+        },
+      });
+    }
+  }
 }
