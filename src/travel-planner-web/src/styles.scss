@@ -1,8 +1,13 @@
 // Include bootstrap icons webfonts
 @import "bootstrap-icons/font/bootstrap-icons.css";
 
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 body {
     margin: 0;
-    background: linear-gradient(90deg, #03a9f4, #2e3c8d);
+    @apply bg-gray-800;
     font-family: 'Roboto', sans-serif;
 }
