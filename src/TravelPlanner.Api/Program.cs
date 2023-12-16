@@ -21,7 +21,16 @@ builder.Services.AddCarter();
 
 builder.Services.AddAuthServices();
 
+builder.Services.AddCors(o => o.AddPolicy("CorsPolicy", corsPolicyBuilder =>
+{
+    corsPolicyBuilder.WithOrigins("http://localhost:4200")
+        .AllowAnyMethod()
+        .AllowAnyHeader();
+}));
+
 var app = builder.Build();
+
+app.UseCors("CorsPolicy");
 
 app.UseExceptionHandler(opt => { });
 
