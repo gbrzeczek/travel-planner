@@ -2,7 +2,6 @@ using Carter;
 using Serilog;
 using TravelPlanner.Api;
 using TravelPlanner.Api.Auth;
-using TravelPlanner.Api.Entities;
 
 var builder = WebApplication.CreateBuilder(args);
 
