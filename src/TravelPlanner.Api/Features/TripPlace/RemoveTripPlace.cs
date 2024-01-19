@@ -56,7 +56,9 @@ public class RemoveTripPlaceEndpoint : ICarterModule
         {
             var command = request.Adapt<RemoveTripPlace.Command>();
             await sender.Send(command, cancellationToken);
-        });
+
+            return new NoContentResult();
+        }).RequireAuthorization();
     }
 }
 
